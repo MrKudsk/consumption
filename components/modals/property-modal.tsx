@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 import { Modal } from "@/components/ui/modal";
 import { usePropertyModal } from "@/hooks/use-property-modal";
@@ -33,10 +34,10 @@ export const PropertyModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      console.log('Values', values);
       const response = await axios.post('/api/propertys', values);
-      console.log(response.data);
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
+      toast.error("Something went wrong.");
       console.log(error);
     } finally {
       setLoading(false);
@@ -69,6 +70,7 @@ export const PropertyModal = () => {
                   )}
                 />
                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+                  <Button disabled={loading} variant="outline" onClick={propertyModal.onClose}>Cancel</Button>
                   <Button disabled={loading} type="submit">Continue</Button>
                 </div>
               </form>
