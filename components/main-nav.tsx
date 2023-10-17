@@ -11,8 +11,8 @@ export function MainNav({
   const pathname = usePathname();
   const params = useParams();
 
-  console.log("PathName: ", pathname);
-  console.log("Params: ", params); 
+  // console.log("PathName: ", pathname);
+  // console.log("Params: ", params); 
 
   const routes = [
     {
