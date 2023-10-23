@@ -12,9 +12,21 @@ datasource db {
 }
 
 model Property {
-  id      String    @id @default(uuid())
-  name    String
-  userId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String      @id @default(uuid())
+  name        String
+  userId      String
+  categories  Category[]  @relation("PropertyToCategory")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  propertyId  String
+  property    Property  @relation("PropertyToCategory", fields: [propertyId], references: [id])
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([propertyId])
 }

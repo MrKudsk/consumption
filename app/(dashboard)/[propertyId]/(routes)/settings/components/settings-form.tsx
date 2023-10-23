@@ -17,6 +17,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
+import { ApiAlert } from "@/components/ui/api-alert";
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -46,7 +47,8 @@ export const SettingsFrom: React.FC<SettingsFormProps> = ({
   const onSubmit = async (data: SettingsFormValues) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/propertys/${params.propertyId}`, data);
+      console.log(`/api/properties/${params.propertyId}`, data);
+      await axios.patch(`/api/properties/${params.propertyId}`, data);
       router.refresh();
       toast.success('Property updated.');
     } catch (error: any) {
@@ -59,7 +61,7 @@ export const SettingsFrom: React.FC<SettingsFormProps> = ({
   const onDelete =async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/propertys/${params.propertyId}`);
+      await axios.delete(`/api/properties/${params.propertyId}`);
       router.refresh();
       router.push('/');
       toast.success('Property deleted.');
@@ -115,6 +117,11 @@ export const SettingsFrom: React.FC<SettingsFormProps> = ({
         </form>
       </Form>
       <Separator />
+      <ApiAlert 
+        title="NEXT_PUBLIC_API_URL"
+        variant="public"
+        description={`${origin}/api/${params.propertyId}`} 
+      />
     </>
   );
 }

@@ -21,6 +21,11 @@ export function MainNav({
       active: pathname === `/${params.propertyId}`,
     },
     {
+      href: `/${params.propertyId}/categories`,
+      label: 'Categories',
+      active: pathname === `/${params.propertyId}/categories`,
+    },
+    {
       href: `/${params.propertyId}/settings`,
       label: 'Settings',
       active: pathname === `/${params.propertyId}/settings`,

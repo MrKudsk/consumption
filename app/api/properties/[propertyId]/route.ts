@@ -1,6 +1,7 @@
-import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+
+import prismadb from "@/lib/prismadb";
 
 export async function PATCH(
   req: Request,
@@ -11,7 +12,7 @@ export async function PATCH(
       const body = await req.json();
 
       const { name } = body;
-
+      console.log("Update ", params.propertyId, name);
       if (!userId) {
         return new NextResponse("Unauthenticated", { status: 403 });
       }
@@ -24,16 +25,16 @@ export async function PATCH(
         return new NextResponse("Property id is required", { status: 400 });
       }
       
-      const property = prismadb.property.updateMany({
+      const updateProperty = await prismadb.property.update({
         where: {
           id: params.propertyId,
         },
         data: {
-          name
-        }
+          name,
+        },
       });
-
-      return NextResponse.json(property);
+      console.log("Prisma: ", updateProperty);
+      return NextResponse.json(updateProperty);
     } catch (error) {
       console.log('[PROPERTY_PATCH]', error);
       return new NextResponse("Internal error", {status: 500});
@@ -55,10 +56,10 @@ export async function DELETE(
         return new NextResponse("Property id is required", { status: 400 });
       }
       
-      const property = prismadb.property.deleteMany({
+      const property = await prismadb.property.delete({
         where: {
           id: params.propertyId,
-        }
+        },
       });
 
       return NextResponse.json(property);
