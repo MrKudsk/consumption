@@ -16,6 +16,7 @@ model Property {
   name        String
   userId      String
   categories  Category[]  @relation("PropertyToCategory")
+  measurements Measurement[]  @relation("PropertyToMeasurement")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
@@ -25,8 +26,25 @@ model Category {
   propertyId  String
   property    Property  @relation("PropertyToCategory", fields: [propertyId], references: [id])
   name        String
+  measurements Measurement[]  @relation("CategoryToMeasurement")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   @@index([propertyId])
+}
+
+model Measurement {
+  id          String    @id @default(uuid())
+  propertyId  String
+  property    Property  @relation("PropertyToMeasurement", fields: [propertyId], references: [id])
+  categoryId  String
+  category    Category  @relation("CategoryToMeasurement", fields: [categoryId], references: [id])
+  date        DateTime
+  measurement Decimal   @default(0)
+  consumption Decimal   @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([propertyId])
+  @@index([categoryId])
 }
