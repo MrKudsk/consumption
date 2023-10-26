@@ -28,12 +28,17 @@ const NavBar = async ({
     }
   });
 
+  const categories = await prismadb.category.findMany({
+    where: {
+      propertyId, 
+    }
+  });
+
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
         <PropertySwitcher items={propertys}/>
-        <CategoryNav className="mx-6"/>
-        <MainNav className="mx-6"/>
+        <MainNav className="mx-6" data={categories} />
         <div className="ml-auto flex items-center space-x-4">
       
           <UserButton afterSignOutUrl="/" />

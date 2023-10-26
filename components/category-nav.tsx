@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export function CategoryNav({
   className,
@@ -11,16 +12,30 @@ export function CategoryNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
+  const [categories, setCategories] = useState([]);
 
   console.log("CateNav", params);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const categoriesData = await prismadb.category.findMany({
+          where: {
+            //propertyId: params.propertyId,
+          }
+        });
+        console.log(categoriesData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('[CATEGORY_NAV] Error fetching categories: ', error);
+      }
+    };
 
-  const categories = await prismadb.category.findMany({
-    where: {
-      propertyId,
-    }
-  });
-
+    fetchData();  // Call the fecthData function when the component mounts.
+  }, []);
+  
+  const propertyId = "test";
+  console.log("CatNav", categories);
 
   const routes = [
     {
