@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { MeasurementsClient } from "./components/client";
 import { MeasurementColumn } from "./components/columns";
 import { format } from "date-fns";
-import { formatter } from "@/lib/utils";
+import { digiFormatter } from "@/lib/utils";
 
 const MeasurementPage = async ({
   params
@@ -22,8 +22,8 @@ const MeasurementPage = async ({
   const formattedMeasurements: MeasurementColumn[] = measurements.map((item) => ({
     id: item.id,
     date: format(item.date, "yyyy-MM-dd"),
-    measurement: formatter.format(item.measurement.toNumber()),
-    consumption: formatter.format(item.consumption.toNumber()),
+    measurement: digiFormatter.format(item.measurement.toNumber()),
+    consumption: digiFormatter.format(item.consumption.toNumber()),
     createdAt: format(item.createdAt, "yyyy-MM-dd"),
   }));
 

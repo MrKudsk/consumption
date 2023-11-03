@@ -26,7 +26,7 @@ export const MeasurementsClient: React.FC<MeasurementsClientProps> = ({
           title={`Measurements (${data.length})`}
           description="Manage measurements for your property."
         />
-        <Button onClick={() => router.push(`/${params.propertyId}/categories/new`)}>
+        <Button onClick={() => router.push(`/${params.propertyId}/measurement/${params.categoryId}/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Add new
         </Button>
       </div>
