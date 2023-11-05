@@ -24,8 +24,8 @@ import { Calendar } from "@/components/ui/calendar";
  
 const formSchema = z.object({
   date: z.date({required_error: "A date of measurement is required.", }),
-  measurement: z.number(),
-  consumption: z.number(),
+  measurement: z.coerce.number(),
+  consumption: z.coerce.number(),
 });
 
 type MeasurementFormValues = z.infer<typeof formSchema>
@@ -48,13 +48,20 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
   const toastMessage = initialData ? 'Measurement updated.' : 'Measurement created.';
   const action = initialData ? 'Save changes' : 'Create';
 
+  const defaultValues = initialData ? {
+    ...initialData,
+    measurement: parseFloat(String(initialData?.measurement)),
+    consumption: parseFloat(String(initialData?.consumption)),
+  } : {
+    date: new Date(),
+    measurement: '0.00',
+    consumption: '0.00',
+  };
+
+  
   const form = useForm<MeasurementFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      date: null,
-      measurement: 0,
-      consumption: 0,
-    }
+    defaultValues
   });
 
   const onSubmit = async (data: MeasurementFormValues) => {
@@ -62,13 +69,13 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
       setLoading(true);
       // console.log("onSubmit");
       if (initialData) {
-        await axios.patch(`/api/${params.propertyId}/categories/${params.categoryId}`, data);
+        await axios.patch(`/api/${params.propertyId}/measurement/${params.categoryId}/${params.measurementId}`, data);
       } else {
-        console.log('onSubmit data: ', data);
-        await axios.post(`/api/${params.propertyId}/categories`, data);
+        //console.log('onSubmit data: ', data);
+        await axios.post(`/api/${params.propertyId}/measurement/${params.categoryId}`, data);
       }
       router.refresh();
-      router.push(`/${params.propertyId}/categories`);
+      router.push(`/${params.propertyId}/measurement/${params.categoryId}`);
       toast.success(toastMessage);     
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -80,10 +87,10 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
   const onDelete = async() => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.propertyId}/categories/${params.categoryId}`);
+      await axios.delete(`/api/${params.propertyId}/measurement/${params.categoryId}/${params.measurementId}`);
       router.refresh();
-      router.push(`/${params.propertyId}/categories`);
-      toast.success('Category deleted.');     
+      router.push(`/${params.propertyId}/measurement/${params.categoryId}`);
+      toast.success('Measurement deleted.');     
     } catch (error: any) {
       toast.error('Something went wrong');
     } finally {
@@ -158,6 +165,19 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({
                   <FormLabel>Measurement</FormLabel>
                   <FormControl>
                     <Input disabled={loading} placeholder="The measurement" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField 
+              control={form.control}
+              name="consumption"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Consumption</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="The consumption" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
