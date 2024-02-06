@@ -11,7 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.24.1",
     "@hookform/resolvers": "^3.3.1",
-    "@prisma/client": "^5.4.2",
+    "@prisma/client": "^5.9.1",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
@@ -31,6 +31,8 @@
     "react-dom": "latest",
     "react-hook-form": "^7.46.2",
     "react-hot-toast": "^2.4.1",
+    "rechart": "^0.0.1",
+    "recharts": "^2.11.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.2",
@@ -44,7 +46,7 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "postcss": "latest",
-    "prisma": "^5.4.2",
+    "prisma": "^5.9.1",
     "tailwindcss": "latest",
     "typescript": "latest"
   }

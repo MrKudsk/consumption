@@ -1,50 +1,68 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model Property {
-  id          String      @id @default(uuid())
-  name        String
-  userId      String
-  categories  Category[]  @relation("PropertyToCategory")
-  measurements Measurement[]  @relation("PropertyToMeasurement")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id           String        @id @default(uuid())
+  name         String
+  userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  categories   Category[]    @relation("PropertyToCategory")
+  measurements Measurement[] @relation("PropertyToMeasurement")
 }
 
 model Category {
-  id          String    @id @default(uuid())
-  propertyId  String
-  property    Property  @relation("PropertyToCategory", fields: [propertyId], references: [id])
-  name        String
-  measurements Measurement[]  @relation("CategoryToMeasurement")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String        @id @default(uuid())
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  propertyId   String
+  property     Property      @relation("PropertyToCategory", fields: [propertyId], references: [id])
+  measurements Measurement[] @relation("CategoryToMeasurement")
 
   @@index([propertyId])
 }
 
 model Measurement {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   propertyId  String
-  property    Property  @relation("PropertyToMeasurement", fields: [propertyId], references: [id])
   categoryId  String
-  category    Category  @relation("CategoryToMeasurement", fields: [categoryId], references: [id])
   date        DateTime
-  measurement Decimal   @default(0)
-  consumption Decimal   @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  measurement Decimal  @default(0)
+  consumption Decimal  @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  property    Property @relation("PropertyToMeasurement", fields: [propertyId], references: [id])
+  category    Category @relation("CategoryToMeasurement", fields: [categoryId], references: [id])
 
   @@index([propertyId])
   @@index([categoryId])
+}
+
+view consumption_by_category_month {
+  propertyId  String
+  categoryId  String
+  category    String
+  month       DateTime @db.Timestamp(6)
+  consumption Decimal   @db.Decimal
+
+  @@unique([propertyId, categoryId, month])
+}
+ 
+view consumptionbycategorymonth {
+  propertyId  String
+  categoryId  String
+  category    String
+  yearmonth   DateTime @db.Timestamp(6)
+  consumption Decimal  @db.Decimal
+
+  @@unique([propertyId, categoryId, yearmonth])
 }

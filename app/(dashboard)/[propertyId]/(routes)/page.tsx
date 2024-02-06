@@ -6,6 +6,8 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { getMeasurementByCategory } from "@/actions/get-measurement-by-category";
 import { getMeasurement } from "@/actions/get-measurement";
+import { Overview } from "@/components/overview";
+import { getGraphMeasurementByCategory } from "@/actions/get-graph-measurement-by-category";
 
 interface DashboardPageProps {
   params: {
@@ -27,7 +29,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
 
   //console.log(property);
   const measure = await getMeasurement(params.propertyId);
-
+  const graphData = await getGraphMeasurementByCategory(params.propertyId);
 
   return ( 
     <div className="flex-col">
@@ -46,6 +48,14 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
             </Card>
           ))}
         </div>
+        <Card className="col-span-4">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <Overview data={graphData} />
+          </CardContent>
+        </Card>
       </div>
     </div>
    );
