@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis} from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Rectangle} from "recharts"
 
 interface OverviewProps {
   data: any[]
@@ -26,7 +26,9 @@ export const Overview: React.FC<OverviewProps> = ({
           axisLine={false}         
           tickFormatter={(value) => `${value}`}
         />
-        <Bar dataKey="total" />
+        <Bar dataKey="varme" fill="#8800d8" activeBar={<Rectangle fill="pink" stroke="blue" />}/>
+        <Bar dataKey="vand" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />}/>
+        <Bar dataKey="el" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
       </BarChart>
     </ResponsiveContainer>
   )
