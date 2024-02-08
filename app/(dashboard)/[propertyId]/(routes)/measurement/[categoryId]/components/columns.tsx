@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import { CellAction } from "./cell-action";
 
 
 export type MeasurementColumn = {
@@ -26,7 +27,7 @@ export const columns: ColumnDef<MeasurementColumn>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
-    }, 
+    },
   },
   {
     accessorKey: "measurement",
@@ -38,6 +39,11 @@ export const columns: ColumnDef<MeasurementColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created at date",
-  }
+    header: "Date",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} />
+    // cell: () => <CellAction />
+  },
 ];

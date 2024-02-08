@@ -36,14 +36,14 @@ export const getGraphMeasurementByCategory = async (categoryId: string) => {
     { name: "Feb", varme: 0, vand: 0, el: 0 },
     { name: "Mar", varme: 0, vand: 0, el: 0 },
     { name: "Apr", varme: 0, vand: 0, el: 0 },
-    { name: "Maj", varme: 15, vand: 10, el: 0 },
-    { name: "Jun", varme: 0, vand: 0, el: 10 },
-    { name: "Jul", varme: 10, vand: 0, el: 0 },
-    { name: "Aug", varme: 20, vand: 10, el: 0 },
-    { name: "Sep", varme: 0, vand: 10, el: 10 },
+    { name: "Maj", varme: 0, vand: 0, el: 0 },
+    { name: "Jun", varme: 0, vand: 0, el: 0 },
+    { name: "Jul", varme: 0, vand: 0, el: 0 },
+    { name: "Aug", varme: 0, vand: 0, el: 0 },
+    { name: "Sep", varme: 0, vand: 0, el: 0 },
     { name: "Okt", varme: 0, vand: 0, el: 0 },
     { name: "Nov", varme: 0, vand: 0, el: 0 },
-    { name: "Dec", varme: 10, vand: 0, el: 0 },
+    { name: "Dec", varme: 0, vand: 0, el: 0 },
   ];
 
   for (const month in montlyData1) {

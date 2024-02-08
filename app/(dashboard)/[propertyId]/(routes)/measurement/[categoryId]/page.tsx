@@ -15,7 +15,7 @@ const MeasurementPage = async ({
       categoryId: params.categoryId,
     },
     orderBy: {
-      createdAt: 'desc',
+      date: 'desc',
     }
   });
 
@@ -24,9 +24,10 @@ const MeasurementPage = async ({
     date: format(item.date, "yyyy-MM-dd"),
     measurement: digiFormatter.format(item.measurement.toNumber()),
     consumption: digiFormatter.format(item.consumption.toNumber()),
-    createdAt: format(item.createdAt, "yyyy-MM-dd"),
+    createdAt: format(item.createdAt, "dd. MMM yyyy"),
   }));
 
+  console.log("Page");
   return ( 
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">

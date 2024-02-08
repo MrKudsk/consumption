@@ -32,6 +32,8 @@ export const MeasurementsClient: React.FC<MeasurementsClientProps> = ({
       </div>
       <Separator />
       <DataTable searchKey="date" columns={columns} data={data} />
+      <Separator />
+      <p>Made by Kudsk Group</p>
     </>
   )
 };
